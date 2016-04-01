@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hello.CardMapper">
+    <!-- 定义数据库字段与实体对象的映射关系 -->
+      <resultMap type="hello.MyCard" id="resultCard">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="photoLink" column="photoLink"/>
+        <result property="company" column="company"/>
+        <result property="title" column="title"/>
+        <result property="email" column="email"/>
+        <result property="phone1" column="phone1"/>
+        <result property="phone2" column="phone2"/>
+        <result property="phone3" column="phone3"/>
+        <result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="website" column="website"/>
+      </resultMap>
+    <!-- 定义参数模型 -->
+      <parameterMap type="hello.MyCard" id="paramCard">
+        <parameter property="id"/>
+        <parameter property="name"/>
+        <parameter property="photoLink"/>
+        <parameter property="company"/>
+        <parameter property="title"/>
+        <parameter property="email"/>
+        <parameter property="phone1"/>
+        <parameter property="phone2"/>
+        <parameter property="phone3"/>
+        <parameter property="mobile"/>
+        <parameter property="address"/>
+        <parameter property="website"/>
+      </parameterMap>
+       
+      <!-- 定义要操纵的SQL语句 --> 
+      <insert id="create" parameterType="hello.MyCard" >
+        INSERT INTO NameCard(id,name,photoLink,company,title,email,phone1,phone2,phone3,mobile,address,website )
+        VALUES(
+        	#{id},
+        	#{name},
+        	#{photoLink},
+        	#{company},
+        	#{title},
+        	#{email},
+        	#{phone1},
+        	#{phone2},
+        	#{phone3},
+        	#{mobile},
+        	#{address},
+        	#{website} 
+        )
+      </insert>
+ 
+      <delete id="delete" parameterType="Integer" >
+        DELETE FROM NameCard
+        WHERE id=#{value}
+      </delete>
+       
+      <update id="modify" parameterType="hello.MyCard" >
+        UPDATE NameCard
+        <set>
+           <if test="name != null">name=#{name},</if>
+           <if test="photoLink != null">photoLink=#{photoLink},</if>
+           <if test="company != null">company=#{company},</if>
+           <if test="title != null">title=#{title},</if>
+           <if test="email != null">email=#{email},</if>
+           <if test="phone1 != null">phone1=#{phone1},</if>
+           <if test="phone2 != null">phone2=#{phone2},</if>
+           <if test="phone3 != null">phone3=#{phone3},</if>
+           <if test="mobile != null">mobile=#{mobile},</if>
+           <if test="address != null">address=#{address},</if>
+           <if test="website != null">website=#{website},</if>
+        </set>
+        WHERE id=#{id}
+      </update>
+
+      <select id="findById" parameterType="Integer" resultMap="resultUser">
+        SELECT * FROM NameCard
+        WHERE id=#{value}
+      </select>
+      <select id="findAll" resultType="list" resultMap="resultUser">
+        SELECT * FROM NameCard
+      </select>
+  
+      <select id="count" resultType="Integer">
+        SELECT count(*) FROM NameCard
+      </select>
+</mapper>
